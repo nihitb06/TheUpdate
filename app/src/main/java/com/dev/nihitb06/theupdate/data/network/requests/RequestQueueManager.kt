@@ -1,0 +1,44 @@
+package com.dev.nihitb06.theupdate.data.network.requests
+
+import android.content.Context
+import android.graphics.Bitmap
+import android.util.LruCache
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.ImageLoader
+import com.android.volley.toolbox.Volley
+
+class RequestQueueManager private constructor(context: Context) {
+
+    val imageLoader: ImageLoader by lazy {
+        ImageLoader(requestQueue, object: ImageLoader.ImageCache {
+            private val cache = LruCache<String, Bitmap>(20)
+
+            override fun getBitmap(url: String?) = cache.get(url)
+
+            override fun putBitmap(url: String?, bitmap: Bitmap?) {
+                cache.put(url, bitmap)
+            }
+        })
+    }
+
+    private val requestQueue: RequestQueue by lazy {
+        Volley.newRequestQueue(context.applicationContext)
+    }
+
+    fun <T> addToRequestQueue(request: Request<T>) {
+        requestQueue.add(request)
+    }
+
+    companion object {
+
+        @Volatile
+        private var INSTANCE: RequestQueueManager? = null
+
+        fun getInstance(context: Context) = INSTANCE
+                ?: synchronized(this) {
+            INSTANCE
+                    ?: RequestQueueManager(context.applicationContext).also { INSTANCE = it }
+        }
+    }
+}
