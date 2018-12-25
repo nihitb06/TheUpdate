@@ -61,10 +61,9 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
 
     private fun setActionBar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-            setHomeButtonEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-        }
+
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener { drawerLayout.openDrawer(drawerLayout) }
 
         drawerLayout.addDrawerListener(drawerToggle)
     }
@@ -98,11 +97,11 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
     }
 
     override fun enableHomeButton() {
-        supportActionBar?.setHomeButtonEnabled(true)
+        //Do Nothing
     }
 
     override fun disableHomeButton() {
-        supportActionBar?.setHomeButtonEnabled(false)
+        //Do Nothing
     }
 
     companion object {
