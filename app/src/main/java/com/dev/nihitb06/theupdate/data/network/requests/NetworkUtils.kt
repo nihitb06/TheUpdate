@@ -17,8 +17,6 @@ class NetworkUtils {
         private const val PAGE_SIZE = "page-size"
         private const val PAGE_SIZE_VALUE = 15
 
-        val CATEGORIES = arrayOf("business", "entertainment", "health", "science", "sports", "technology")
-
         const val HTTP_HEADER_KEY = "X-Api-Key"
 
         fun getURLByCategory(category: String) = buildURL(category)

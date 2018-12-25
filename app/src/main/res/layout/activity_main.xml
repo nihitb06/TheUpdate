@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.list.MainActivity">
+
+    <com.google.android.material.circularreveal.CircularRevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/contentOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:id="@+id/contentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+
+    </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:scrollbarThumbVertical="@android:color/transparent"
+        android:layout_width="@dimen/sliding_menu_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|bottom">
+
+        <LinearLayout
+            android:id="@+id/appDrawer"
+            android:orientation="vertical"
+            android:layout_width="@dimen/sliding_menu_width"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/transparent"
+            android:background="@android:color/transparent" />
+
+    </ScrollView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

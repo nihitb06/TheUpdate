@@ -2,4 +2,39 @@
     <string name="app_name">The Update</string>
 
     <string name="api_key">f54f0ea8e73542dbaebcf1a61f8c4049</string>
+
+    <!-- Menu Strings -->
+    <string name="close">Close</string>
+    <string name="home">Home</string>
+
+    <string name="business">Business</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="health">Health</string>
+    <string name="science">Science</string>
+    <string name="sports">Sports</string>
+    <string name="technology">Technology</string>
+
+    <string-array name="menu">
+        <item>@string/close</item>
+        <item>@string/home</item>
+        <item>@string/business</item>
+        <item>@string/entertainment</item>
+        <item>@string/health</item>
+        <item>@string/science</item>
+        <item>@string/sports</item>
+        <item>@string/technology</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>@string/business</item>
+        <item>@string/entertainment</item>
+        <item>@string/health</item>
+        <item>@string/science</item>
+        <item>@string/sports</item>
+        <item>@string/technology</item>
+    </string-array>
+
+    <!-- App Drawer Strings -->
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

@@ -26,7 +26,7 @@ class NetworkDataSource private constructor(private val context: Application, pr
         appExecutors.networkIO.execute {
             val requestQueueManager = RequestQueueManager.getInstance(context)
 
-            val categories = NetworkUtils.CATEGORIES
+            val categories = context.resources.getStringArray(R.array.categories)
 
             categories.iterator().forEach {
                 val request = ArticleRequest(
