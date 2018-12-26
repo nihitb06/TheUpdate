@@ -12,8 +12,8 @@ interface ArticleDao {
     @Query("SELECT * FROM articles WHERE title=:title")
     fun getArticle(title: String): LiveData<ArticleEntity>
 
-    @Query("SELECT title, urlToImage, description, publishedAt FROM articles LIMIT :limit")
-    fun getArticles(limit: Int): LiveData<List<ListArticleEntity>>
+    @Query("SELECT title, category, urlToImage, description, publishedAt FROM articles LIMIT :limit")
+    fun getArticles(limit: Int): LiveData<List<HeaderArticleEntity>>
 
     @Query("SELECT title, urlToImage, description, publishedAt FROM articles WHERE title LIKE :query OR author LIKE :query")
     fun getArticlesByQuery(query: String): LiveData<List<ListArticleEntity>>

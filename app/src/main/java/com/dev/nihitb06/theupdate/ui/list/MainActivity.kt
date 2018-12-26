@@ -43,8 +43,7 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        listFragment = ListFragment.newInstance()
-        supportFragmentManager.beginTransaction().replace(R.id.contentFrame, listFragment).commit()
+        switchFragment(getString(R.string.home), null, -1)
 
         setActionBar()
     }
@@ -68,19 +67,24 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
         drawerLayout.addDrawerListener(drawerToggle)
     }
 
-    private fun switchFragment(fragment: ScreenShotable?, topPosition: Int): ScreenShotable {
-        val animator = ViewAnimationUtils.createCircularReveal(
-                contentFrame,
-                0,
-                topPosition,
-                0f,
-                Math.max(contentFrame.width, contentFrame.height).toFloat()
-        )
-        animator.interpolator = AccelerateInterpolator()
-        animator.duration = ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION.toLong()
+    private fun switchFragment(category: String, fragment: ScreenShotable?, topPosition: Int): ScreenShotable {
+        if(topPosition >= 0) {
+            val animator = ViewAnimationUtils.createCircularReveal(
+                    contentFrame,
+                    0,
+                    topPosition,
+                    0f,
+                    Math.max(contentFrame.width, contentFrame.height).toFloat()
+            )
+            animator.interpolator = AccelerateInterpolator()
+            animator.duration = ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION.toLong()
 
-        contentOverlay.background = BitmapDrawable(resources, fragment?.bitmap)
-        animator.start()
+            contentOverlay.background = BitmapDrawable(resources, fragment?.bitmap)
+            animator.start()
+        }
+
+        listFragment = ListFragment.newInstance(category)
+        supportFragmentManager.beginTransaction().replace(R.id.contentFrame, listFragment).commit()
 
         return listFragment
     }
@@ -89,7 +93,7 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
             slideMenuItem: Resourceble?, screenShotable: ScreenShotable?, position: Int
     ) = when(slideMenuItem?.name) {
         getString(R.string.close) -> screenShotable
-        else -> switchFragment(screenShotable, position)
+        else -> switchFragment(slideMenuItem!!.name, screenShotable, position)
     }
 
     override fun addViewToContainer(view: View) {

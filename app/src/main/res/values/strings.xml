@@ -37,4 +37,8 @@
     <!-- App Drawer Strings -->
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+
+    <!-- Content Descriptions -->
+    <string name="content_description_header_item">Shows the Category to which the Article belongs</string>
+    <string name="content_description_content_item">Shows Image associated to article</string>
 </resources>

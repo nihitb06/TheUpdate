@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -34,6 +36,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'com.github.yalantis:Side-Menu.Android:1.0.1'
     implementation 'com.tbuonomo:creative-viewpager:1.0.1'
+    //Glide Components
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     // Lifecycle Components
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"

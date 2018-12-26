@@ -6,6 +6,7 @@ import com.dev.nihitb06.theupdate.AppExecutors
 import com.dev.nihitb06.theupdate.data.ArticleRepository
 import com.dev.nihitb06.theupdate.data.database.TheUpdateDatabase
 import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
+import com.dev.nihitb06.theupdate.ui.list.ListViewModelFactory
 
 class InjectorUtils {
 
@@ -30,5 +31,8 @@ class InjectorUtils {
             // case the repository will not exist unless it is specifically created.
             provideRepository(context)
         }
+
+        fun provideListViewModelFactory(context: Context, category: String?)
+                = ListViewModelFactory(provideRepository(context.applicationContext), category)
     }
 }

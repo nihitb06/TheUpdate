@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.dev.nihitb06.theupdate.AppExecutors
 import com.dev.nihitb06.theupdate.data.database.ArticleDao
 import com.dev.nihitb06.theupdate.data.database.ArticleEntity
+import com.dev.nihitb06.theupdate.data.database.HeaderArticleEntity
 import com.dev.nihitb06.theupdate.data.database.ListArticleEntity
 import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
 
@@ -48,7 +49,7 @@ class ArticleRepository private constructor(
         initializeData()
         return articleDao.getArticle(title)
     }
-    fun getArticles(limit: Int): LiveData<List<ListArticleEntity>> {
+    fun getArticles(limit: Int): LiveData<List<HeaderArticleEntity>> {
         initializeData()
         return articleDao.getArticles(limit)
     }
