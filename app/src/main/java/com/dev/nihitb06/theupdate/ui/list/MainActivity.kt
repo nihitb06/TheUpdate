@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateInterpolator
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
 
     private fun switchFragment(category: String, fragment: ScreenShotable?, topPosition: Int): ScreenShotable {
         if(topPosition >= 0) {
+            Log.d("TAG_HELLO", "Top: $topPosition")
             val animator = ViewAnimationUtils.createCircularReveal(
                     contentFrame,
                     0,
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
             contentOverlay.background = BitmapDrawable(resources, fragment?.bitmap)
             animator.start()
         }
+
+        Log.d("TAG_HELLO", "Category: $category")
 
         listFragment = ListFragment.newInstance(category)
         supportFragmentManager.beginTransaction().replace(R.id.contentFrame, listFragment).commit()

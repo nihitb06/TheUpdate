@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.android.volley.Response
@@ -34,6 +35,7 @@ class NetworkDataSource private constructor(private val context: Application, pr
                         it,
                         context.getString(R.string.api_key),
                         Response.Listener { response ->
+                            Log.d("TAG_HELLO", "inResponse: $response")
                             downloadedArticleResponse.postValue(response.articles)
 
                             PreferenceManager.getDefaultSharedPreferences(context)
@@ -41,7 +43,9 @@ class NetworkDataSource private constructor(private val context: Application, pr
                                     .putLong(ArticleRepository.TIME_SYNCED, System.currentTimeMillis())
                                     .apply()
                         },
-                        Response.ErrorListener { /*Do Nothing*/ }
+                        Response.ErrorListener { response ->
+                            Log.e("TAG_HELLO", "inResponse: $response")
+                        }
                 )
 
                 requestQueueManager.addToRequestQueue(request)

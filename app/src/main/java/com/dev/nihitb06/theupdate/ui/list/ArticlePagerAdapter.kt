@@ -16,11 +16,6 @@ import java.net.URL
 class ArticlePagerAdapter (private val articles: List<HeaderArticleEntity>) : CreativePagerAdapter {
 
     override fun instantiateHeaderItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View
-            = inflater.inflate(R.layout.layout_header_item, container, false).apply {
-        iconCategory.setImageResource(getImageResource(articles[position].category))
-    }
-
-    override fun instantiateContentItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View
             = inflater.inflate(R.layout.layout_content_item, container, false).apply {
         val article = articles[position]
         Glide.with(context).load(GlideUrl(URL(article.urlToImage))).apply(
@@ -30,6 +25,11 @@ class ArticlePagerAdapter (private val articles: List<HeaderArticleEntity>) : Cr
         tvHeader.text = article.title
         tvDescription.text = article.description
         tvPublishedAt.text = article.publishedAt
+    }
+
+    override fun instantiateContentItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View
+            = inflater.inflate(R.layout.layout_header_item, container, false).apply {
+        iconCategory.setImageResource(getImageResource(articles[position].category.toLowerCase()))
     }
 
     override fun getCount() = articles.size

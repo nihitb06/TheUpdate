@@ -6,6 +6,6 @@ data class ArticleResponseObject (
         val status: String,
         val totalResults: Int,
         val articles: List<ArticleEntity>,
-        val code: String,
-        val message: String
+        val code: String?,
+        val message: String?
 )

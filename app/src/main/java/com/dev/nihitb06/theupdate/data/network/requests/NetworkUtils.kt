@@ -7,12 +7,15 @@ class NetworkUtils {
 
     companion object {
 
-        private const val BASE_DOMAIN = "https://newsapi.prg/v2/top-headlines"
+        private const val BASE_DOMAIN = "https://newsapi.org/v2/top-headlines"
 
         private const val TOP_HEADLINES = "top-headlines"
 
         private const val CATEGORY = "category"
+        private const val COUNTRY = "country"
         private const val QUERY = "q"
+
+        private const val COUNTRY_VALUE = "in" //for India
 
         private const val PAGE_SIZE = "page-size"
         private const val PAGE_SIZE_VALUE = 15
@@ -25,15 +28,18 @@ class NetworkUtils {
 
         private fun buildURL(category: String) = Uri.parse(BASE_DOMAIN).buildUpon()
                 .appendQueryParameter(CATEGORY, category)
+                .appendQueryParameter(COUNTRY, COUNTRY_VALUE)
                 .appendQueryParameter(PAGE_SIZE, "$PAGE_SIZE_VALUE")
                 .build().toString()
         private fun buildURLWithQuery(query: String) = Uri.parse(BASE_DOMAIN).buildUpon()
                 .appendQueryParameter(QUERY, query)
+                .appendQueryParameter(COUNTRY, COUNTRY_VALUE)
                 .appendQueryParameter(PAGE_SIZE, "$PAGE_SIZE_VALUE")
                 .build().toString()
         private fun buildURLWithQuery(query: String, category: String) = Uri.parse(BASE_DOMAIN).buildUpon()
                 .appendQueryParameter(CATEGORY, category)
                 .appendQueryParameter(QUERY, query)
+                .appendQueryParameter(COUNTRY, COUNTRY_VALUE)
                 .appendQueryParameter(PAGE_SIZE, "$PAGE_SIZE_VALUE")
                 .build().toString()
     }

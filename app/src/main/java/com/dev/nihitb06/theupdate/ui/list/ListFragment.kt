@@ -3,6 +3,7 @@ package com.dev.nihitb06.theupdate.ui.list
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,21 +35,27 @@ class ListFragment : Fragment(), ScreenShotable {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.fragment_list, container, false)
+                              savedInstanceState: Bundle?): View? {
+        val itemView = inflater.inflate(R.layout.fragment_list, container, false)
+
+        if(category == getString(R.string.home))
+            setupPager(itemView)
+        else
+            setupList(itemView)
+
+        return itemView
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         container = view.container
-
-        if(category == getString(R.string.home))
-            setupPager(view)
-        else
-            setupList(view)
     }
 
     private fun setupPager(view: View) {
         view.newsPager.visibility = View.VISIBLE
+
+        Log.d("TAG_HELLO", "setupPager: ")
 
         try {
             val factory = InjectorUtils.provideListViewModelFactory(context!!.applicationContext, null)
@@ -60,6 +67,7 @@ class ListFragment : Fragment(), ScreenShotable {
                     view.newsPager.setCreativeViewPagerAdapter(ArticlePagerAdapter(articles as List<HeaderArticleEntity>))
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
+                    Log.e("TAG_HELLO", "Error: ${e.message}")
                 }
             })
         } catch (e: NullPointerException) {
@@ -83,6 +91,7 @@ class ListFragment : Fragment(), ScreenShotable {
                     adapter.setArticles(articles as List<ListArticleEntity>)
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
+                    Log.e("TAG_HELLO", "Error: ${e.message}")
                 }
             })
         } catch (e: NullPointerException) {

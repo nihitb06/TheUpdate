@@ -1,31 +1,35 @@
 package com.dev.nihitb06.theupdate.data.network.requests
 
+import android.util.Log
 import com.dev.nihitb06.theupdate.data.database.ArticleEntity
-import com.dev.nihitb06.theupdate.data.database.ArticleSource
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 class ResponseParser {
 
     companion object {
 
-        private const val STATUS = "status"
-        private const val TOTAL_RESULTS = "totalResults"
-        private const val ARTICLES = "articles"
-        private const val CODE = "code"
-        private const val MESSAGE = "message"
+        const val STATUS = "status"
+        const val TOTAL_RESULTS = "totalResults"
+        const val ARTICLES = "articles"
+        const val CODE = "code"
+        const val MESSAGE = "message"
 
-        private const val STATUS_CODE_OK = "ok"
-        private const val STATUS_CODE_ERROR = "error"
+        const val STATUS_CODE_OK = "ok"
+        const val STATUS_CODE_ERROR = "error"
 
-        private const val SOURCE = "source"
-        private const val AUTHOR = "author"
-        private const val TITLE = "title"
-        private const val DESCRIPTION = "description"
-        private const val URL = "url"
-        private const val URL_TO_IMAGE = "urlToImage"
-        private const val PUBLISHED_AT = "publishedAt"
-        private const val CONTENT = "content"
+        const val SOURCE = "source"
+        const val AUTHOR = "author"
+        const val TITLE = "title"
+        const val DESCRIPTION = "description"
+        const val URL = "url"
+        const val URL_TO_IMAGE = "urlToImage"
+        const val PUBLISHED_AT = "publishedAt"
+        const val CONTENT = "content"
+
+        private const val ID = "id"
+        private const val NAME = "name"
 
         fun parseJson(json: String, category: String): ArticleResponseObject? {
             val jsonObject = JSONObject(json)
@@ -40,8 +44,7 @@ class ResponseParser {
                 val article = articles[i] as JSONObject
 
                 articleEntities.add(ArticleEntity(
-                        article[SOURCE] as ArticleSource,
-                        article[AUTHOR] as String,
+                        try { article[AUTHOR] as String } catch (e: ClassCastException) { "" },
                         article[TITLE] as String,
                         article[DESCRIPTION] as String,
                         category,
@@ -52,12 +55,14 @@ class ResponseParser {
                 ))
             }
 
+            val code = try { jsonObject[CODE] as String } catch (e: JSONException) { null }
+            val message = try { jsonObject[MESSAGE] as String } catch (e: JSONException) { null }
+
             return ArticleResponseObject(
                     STATUS_CODE_OK,
                     jsonObject[TOTAL_RESULTS] as Int,
                     articleEntities,
-                    jsonObject[CODE] as String,
-                    jsonObject[MESSAGE] as String
+                    code, message
             )
         }
     }

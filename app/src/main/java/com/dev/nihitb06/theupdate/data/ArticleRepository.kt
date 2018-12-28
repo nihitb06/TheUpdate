@@ -33,10 +33,8 @@ class ArticleRepository private constructor(
 
         networkDataSource.scheduleDataSync()
 
-        appExecutors.diskIO.execute {
-            if(isSyncNeeded())
-                networkDataSource.syncData()
-        }
+        if(isSyncNeeded())
+            syncData()
     }
 
     private fun isSyncNeeded() = preferences.getLong(TIME_SYNCED, 0L) + (1000*60*60*24) <= System.currentTimeMillis()
