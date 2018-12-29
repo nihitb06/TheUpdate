@@ -1,11 +1,11 @@
 package com.dev.nihitb06.theupdate.ui.list
 
+import android.animation.Animator
 import android.content.res.Configuration
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateInterpolator
@@ -40,11 +40,15 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
         )
     }
 
+    private lateinit var currentCategory: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        switchFragment(getString(R.string.home), null, -1)
+        currentCategory = savedInstanceState?.getString(CURRENT_CATEGORY) ?: getString(R.string.home)
+
+        switchFragment(currentCategory, null, -1)
 
         setActionBar()
     }
@@ -59,6 +63,11 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.putString(CURRENT_CATEGORY, currentCategory)
+    }
+
     private fun setActionBar() {
         setSupportActionBar(toolbar)
 
@@ -70,7 +79,6 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
 
     private fun switchFragment(category: String, fragment: ScreenShotable?, topPosition: Int): ScreenShotable {
         if(topPosition >= 0) {
-            Log.d("TAG_HELLO", "Top: $topPosition")
             val animator = ViewAnimationUtils.createCircularReveal(
                     contentFrame,
                     0,
@@ -81,13 +89,32 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
             animator.interpolator = AccelerateInterpolator()
             animator.duration = ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION.toLong()
 
+            animator.addListener(object: Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                    //Do Nothing
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                    //Do Nothing
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    contentOverlay.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    //Do Nothing
+                }
+            })
+
             contentOverlay.background = BitmapDrawable(resources, fragment?.bitmap)
+            contentOverlay.visibility = View.VISIBLE
+
             animator.start()
         }
 
-        Log.d("TAG_HELLO", "Category: $category")
-
-        listFragment = ListFragment.newInstance(category)
+        currentCategory = category
+        listFragment = ListFragment.newInstance(category, toolbar)
         supportFragmentManager.beginTransaction().replace(R.id.contentFrame, listFragment).commit()
 
         return listFragment
@@ -113,6 +140,8 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
     }
 
     companion object {
+
+        private const val CURRENT_CATEGORY = "CurrentCategory"
 
         private val NAMES = arrayOf(
                 R.string.close,

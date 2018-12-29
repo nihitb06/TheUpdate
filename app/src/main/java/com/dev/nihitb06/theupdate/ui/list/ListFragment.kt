@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -27,6 +29,7 @@ class ListFragment : Fragment(), ScreenShotable {
     private lateinit var bitmap: Bitmap
 
     private lateinit var category: String
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +84,15 @@ class ListFragment : Fragment(), ScreenShotable {
         val adapter = ArticleRecyclerAdapter()
         view.newsList.adapter = adapter
 
+        view.newsList.addItemDecoration(DividerItemDecoration(view.newsList.context, RecyclerView.VERTICAL))
+        view.newsList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                toolbar.elevation = if(recyclerView.canScrollVertically(-1)) 24f else 0f
+            }
+        })
+
         try {
             val factory = InjectorUtils.provideListViewModelFactory(context!!.applicationContext, category)
             val viewModel = ViewModelProviders.of(this, factory).get(ListViewModel::class.java)
@@ -113,10 +125,12 @@ class ListFragment : Fragment(), ScreenShotable {
         const val CATEGORY = "Category"
 
         @JvmStatic
-        fun newInstance(category: String) = ListFragment().apply {
+        fun newInstance(category: String, toolbar: Toolbar) = ListFragment().apply {
             arguments = Bundle().apply {
                 putString(CATEGORY, category)
             }
+
+            this.toolbar = toolbar
         }
     }
 }

@@ -2,28 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/dimens_16dp"
+    android:baselineAligned="false"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_size"
     style="@style/AppTheme.Clickable">
 
-    <TextView
-        android:id="@+id/tvHeader"
-        android:textSize="20sp"
-        android:textColor="?android:textColorPrimary"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="@dimen/dimens_16dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="8" />
+        android:layout_height="match_parent"
+        android:layout_weight="8">
 
-    <TextView
-        android:id="@+id/tvDescription"
-        android:visibility="gone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="8" />
+        <TextView
+            android:id="@+id/tvHeader"
+            android:textSize="@dimen/text_primary"
+            android:textColor="?android:textColorPrimary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/dimens_16dp"
+            android:layout_marginBottom="@dimen/dimens_4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:textSize="@dimen/text_secondary"
+            android:textColor="?android:textColorSecondary"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginEnd="@dimen/dimens_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"

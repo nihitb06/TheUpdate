@@ -65,8 +65,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_home" />
-                            <entry key="sourceFile" value="E:\my-icons-collection-1\svg\002-house.svg" />
+                            <entry key="outputName" value="ic_sports" />
+                            <entry key="sourceFile" value="C:\Users\nihit\Downloads\soccer.svg" />
                           </map>
                         </option>
                       </PersistentState>
