@@ -1,9 +1,9 @@
 package com.dev.nihitb06.theupdate.ui.list
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,12 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dev.nihitb06.theupdate.R
 import com.dev.nihitb06.theupdate.data.database.HeaderArticleEntity
 import com.dev.nihitb06.theupdate.data.database.ListArticleEntity
+import com.dev.nihitb06.theupdate.ui.details.ArticleDetailsActivity
+import com.dev.nihitb06.theupdate.ui.list.adapters.ArticlePagerAdapter
+import com.dev.nihitb06.theupdate.ui.list.adapters.ArticleRecyclerAdapter
+import com.dev.nihitb06.theupdate.ui.list.interfaces.OnItemClickListener
 import com.dev.nihitb06.theupdate.utilities.InjectorUtils
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import yalantis.com.sidemenu.interfaces.ScreenShotable
 import kotlin.ClassCastException
 
-class ListFragment : Fragment(), ScreenShotable {
+class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
 
     private lateinit var container: View
     private lateinit var bitmap: Bitmap
@@ -58,8 +62,6 @@ class ListFragment : Fragment(), ScreenShotable {
     private fun setupPager(view: View) {
         view.newsPager.visibility = View.VISIBLE
 
-        Log.d("TAG_HELLO", "setupPager: ")
-
         try {
             val factory = InjectorUtils.provideListViewModelFactory(context!!.applicationContext, null)
             val viewModel = ViewModelProviders.of(this, factory).get(ListViewModel::class.java)
@@ -67,10 +69,9 @@ class ListFragment : Fragment(), ScreenShotable {
             viewModel.articles.observe(this, Observer { articles ->
                 try {
                     @Suppress("UNCHECKED_CAST")
-                    view.newsPager.setCreativeViewPagerAdapter(ArticlePagerAdapter(articles as List<HeaderArticleEntity>))
+                    view.newsPager.setCreativeViewPagerAdapter(ArticlePagerAdapter(articles as List<HeaderArticleEntity>, this))
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
-                    Log.e("TAG_HELLO", "Error: ${e.message}")
                 }
             })
         } catch (e: NullPointerException) {
@@ -81,7 +82,7 @@ class ListFragment : Fragment(), ScreenShotable {
         view.newsList.visibility = View.VISIBLE
         view.newsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        val adapter = ArticleRecyclerAdapter()
+        val adapter = ArticleRecyclerAdapter(this)
         view.newsList.adapter = adapter
 
         view.newsList.addItemDecoration(DividerItemDecoration(view.newsList.context, RecyclerView.VERTICAL))
@@ -103,7 +104,6 @@ class ListFragment : Fragment(), ScreenShotable {
                     adapter.setArticles(articles as List<ListArticleEntity>)
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
-                    Log.e("TAG_HELLO", "Error: ${e.message}")
                 }
             })
         } catch (e: NullPointerException) {
@@ -119,6 +119,14 @@ class ListFragment : Fragment(), ScreenShotable {
     }.start()
 
     override fun getBitmap() = bitmap
+
+    override fun onItemClick(title: String, name: String) {
+        context?.startActivity(
+                Intent(context, ArticleDetailsActivity::class.java)
+                        .putExtra(ArticleDetailsActivity.TITLE, title)
+                        .putExtra(ArticleDetailsActivity.NAME, name)
+        )
+    }
 
     companion object {
 

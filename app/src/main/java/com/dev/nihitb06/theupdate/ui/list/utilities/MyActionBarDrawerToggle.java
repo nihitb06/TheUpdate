@@ -1,4 +1,4 @@
-package com.dev.nihitb06.theupdate.ui.list;
+package com.dev.nihitb06.theupdate.ui.list.utilities;
 
 import android.app.Activity;
 import android.view.View;

@@ -41,4 +41,7 @@
     <!-- Content Descriptions -->
     <string name="content_description_header_item">Shows the Category to which the Article belongs</string>
     <string name="content_description_content_item">Shows Image associated to article</string>
+
+    <!-- App Details Strings -->
+    <string name="byline">By:</string>
 </resources>

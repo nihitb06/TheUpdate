@@ -1,4 +1,4 @@
-package com.dev.nihitb06.theupdate.ui.list
+package com.dev.nihitb06.theupdate.ui.list.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +8,16 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.request.RequestOptions
 import com.dev.nihitb06.theupdate.R
 import com.dev.nihitb06.theupdate.data.database.HeaderArticleEntity
+import com.dev.nihitb06.theupdate.ui.list.interfaces.OnItemClickListener
 import com.tbuonomo.creativeviewpager.adapter.CreativePagerAdapter
 import kotlinx.android.synthetic.main.layout_content_item.view.*
 import kotlinx.android.synthetic.main.layout_header_item.view.*
 import java.net.URL
 
-class ArticlePagerAdapter (private val articles: List<HeaderArticleEntity>) : CreativePagerAdapter {
+class ArticlePagerAdapter (
+        private val articles: List<HeaderArticleEntity>,
+        private val onItemClickListener: OnItemClickListener
+) : CreativePagerAdapter {
 
     override fun instantiateHeaderItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View
             = inflater.inflate(R.layout.layout_content_item, container, false).apply {
@@ -24,7 +28,10 @@ class ArticlePagerAdapter (private val articles: List<HeaderArticleEntity>) : Cr
 
         tvHeader.text = article.title
         tvDescription.text = article.description
-        tvPublishedAt.text = article.publishedAt
+        tvPublishedAt.text = article.publishedAt.replace('T', ' ').replace('Z', '.')
+
+        transitionName = position.toString()
+        setOnClickListener { onItemClickListener.onItemClick(article.title, position.toString()) }
     }
 
     override fun instantiateContentItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View

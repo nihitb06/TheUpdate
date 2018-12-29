@@ -6,6 +6,7 @@ import com.dev.nihitb06.theupdate.AppExecutors
 import com.dev.nihitb06.theupdate.data.ArticleRepository
 import com.dev.nihitb06.theupdate.data.database.TheUpdateDatabase
 import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
+import com.dev.nihitb06.theupdate.ui.details.DetailViewModelFactory
 import com.dev.nihitb06.theupdate.ui.list.ListViewModelFactory
 
 class InjectorUtils {
@@ -34,5 +35,8 @@ class InjectorUtils {
 
         fun provideListViewModelFactory(context: Context, category: String?)
                 = ListViewModelFactory(provideRepository(context.applicationContext), category)
+
+        fun provideDetailViewModelFactory(context: Context, title: String)
+                = DetailViewModelFactory(provideRepository(context.applicationContext), title)
     }
 }

@@ -23,6 +23,9 @@
         <service
             android:name=".data.network.workers.SyncDataIntentService"
             android:exported="false" />
+
+        <activity android:name=".ui.details.ArticleDetailsActivity"
+            android:parentActivityName=".ui.list.MainActivity" />
     </application>
 
 </manifest>
