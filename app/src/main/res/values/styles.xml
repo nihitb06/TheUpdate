@@ -10,8 +10,11 @@
         <item name="android:fontFamily">@font/ebgaramond_regular</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Light">
+    <style name="AppTheme.Toolbar">
         <item name="android:fontFamily">@font/english_towne</item>
+    </style>
+    <style name="AppTheme.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="AppTheme.Clickable">

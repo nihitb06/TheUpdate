@@ -1,15 +1,19 @@
 package com.dev.nihitb06.theupdate.ui.list
 
 import android.animation.Animator
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateInterpolator
 import com.dev.nihitb06.theupdate.R
+import com.dev.nihitb06.theupdate.ui.AboutActivity
 import com.dev.nihitb06.theupdate.ui.list.utilities.MyActionBarDrawerToggle
 import kotlinx.android.synthetic.main.activity_main.*
 import yalantis.com.sidemenu.interfaces.Resourceble
@@ -67,6 +71,16 @@ class MainActivity : AppCompatActivity(), ViewAnimator.ViewAnimatorListener {
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         super.onSaveInstanceState(outState, outPersistentState)
         outState?.putString(CURRENT_CATEGORY, currentCategory)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId) {
+        R.id.app_info -> {startActivity(Intent(this, AboutActivity::class.java)); true}
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setActionBar() {

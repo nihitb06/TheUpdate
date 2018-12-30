@@ -1,5 +1,6 @@
 package com.dev.nihitb06.theupdate.ui.details
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +13,9 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.dev.nihitb06.theupdate.R
 import com.dev.nihitb06.theupdate.data.database.ArticleEntity
 import com.dev.nihitb06.theupdate.utilities.InjectorUtils
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_article_details.*
+import java.net.MalformedURLException
 import java.net.URL
 
 class ArticleDetailsActivity : AppCompatActivity() {
@@ -59,7 +62,14 @@ class ArticleDetailsActivity : AppCompatActivity() {
             tvUrl.text = articleEntity.url
 
             tvUrl.setOnClickListener {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(articleEntity.url)))
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(articleEntity.url)))
+                } catch (e: MalformedURLException) {
+                    e.printStackTrace()
+                    Snackbar.make(rootView, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
+                } catch (e: ActivityNotFoundException) {
+                    Snackbar.make(rootView, "No Activity can Handle the Action", Snackbar.LENGTH_SHORT).show()
+                }
             }
         })
     }

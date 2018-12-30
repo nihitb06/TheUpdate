@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.AboutActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize" />
+
+    <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dimens_32dp"
+        android:layout_marginBottom="@dimen/dimens_16dp"
+        android:layout_width="@dimen/image_size_land"
+        android:layout_height="@dimen/image_size_land"
+        android:contentDescription="@string/app_icon" />
+
+    <TextView
+        android:text="@string/app_name"
+        android:textSize="@dimen/text_header"
+        android:textColor="?android:textColorPrimary"
+        android:fontFamily="@font/english_towne"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvVersion"
+        android:textSize="@dimen/text_secondary"
+        android:textColor="?android:textColorSecondary"
+        android:textStyle="italic"
+        android:fontFamily="sans-serif"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dimens_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:background="#BDBDBD"
+        android:layout_margin="@dimen/dimens_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:text="@string/app_description"
+        android:textSize="@dimen/text_primary"
+        android:textColor="?android:textColorSecondary"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/dimens_16dp"
+        android:layout_marginEnd="@dimen/dimens_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/appLink"
+        android:text="@string/app_link"
+        android:textSize="@dimen/text_secondary"
+        android:textColor="@android:color/holo_blue_dark"
+        android:fontFamily="sans-serif"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_margin="@dimen/dimens_16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AppTheme.Clickable" />
+
+    <TextView
+        android:id="@+id/tvOSS"
+        android:text="@string/open_source"
+        android:textSize="@dimen/text_primary"
+        android:textColor="?android:textColorPrimary"
+        android:fontFamily="sans-serif"
+        android:padding="@dimen/dimens_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppTheme.Clickable" />
+
+    <View
+        android:background="#BDBDBD"
+        android:layout_marginStart="@dimen/dimens_16dp"
+        android:layout_marginEnd="@dimen/dimens_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:id="@+id/tvAssets"
+        android:text="@string/assets"
+        android:textSize="@dimen/text_primary"
+        android:textColor="?android:textColorPrimary"
+        android:fontFamily="sans-serif"
+        android:padding="@dimen/dimens_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppTheme.Clickable" />
+
+    <TextView
+        android:text="@string/attribution"
+        android:textSize="@dimen/text_secondary"
+        android:textColor="?android:textColorSecondary"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/dimens_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

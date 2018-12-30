@@ -3,7 +3,22 @@
 
     <string name="api_key">f54f0ea8e73542dbaebcf1a61f8c4049</string>
 
-    <!-- Menu Strings -->
+    <!-- About App Strings -->
+    <string name="app_icon">App Icon</string>
+    <string name="app_description">The Update is a lightweight Android Application, which
+    curates news from over 30,000 sources to deliver top headlines in Business, Entertainment, Health Care,
+    Science, Sports and Technology to you.</string>
+
+    <string name="app_link">https://github.com/nihitb06/TheUpdate</string>
+
+    <string name="app_version">Version: %1$s</string>
+
+    <string name="open_source">Open Source Licenses</string>
+    <string name="assets">Image Assets Used</string>
+    
+    <string name="attribution">powered by NEWSAPI.org</string>
+
+    <!-- Navigation Menu Strings -->
     <string name="close">Close</string>
     <string name="home">Home</string>
 
@@ -33,6 +48,9 @@
         <item>@string/sports</item>
         <item>@string/technology</item>
     </string-array>
+
+    <!-- Main Menu Strings -->
+    <string name="app_info">About App</string>
 
     <!-- App Drawer Strings -->
     <string name="drawer_open">Open</string>
