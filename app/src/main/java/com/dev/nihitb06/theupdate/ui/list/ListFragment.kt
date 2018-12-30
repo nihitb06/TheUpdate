@@ -71,6 +71,9 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
                     view.newsPager.setCreativeViewPagerAdapter(ArticlePagerAdapter(articles as List<HeaderArticleEntity>, this))
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                    activity?.recreate()
                 }
             })
         } catch (e: NullPointerException) {

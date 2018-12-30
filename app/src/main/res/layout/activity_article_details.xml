@@ -124,7 +124,7 @@
 
             <TextView
                 android:id="@+id/tvUrl"
-                android:textColor="@android:color/holo_blue_bright"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="@dimen/text_secondary"
                 android:textStyle="italic"
                 android:layout_marginStart="@dimen/dimens_16dp"
