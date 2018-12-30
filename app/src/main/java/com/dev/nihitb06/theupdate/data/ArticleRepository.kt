@@ -2,6 +2,8 @@ package com.dev.nihitb06.theupdate.data
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.dev.nihitb06.theupdate.AppExecutors
 import com.dev.nihitb06.theupdate.data.database.ArticleDao
 import com.dev.nihitb06.theupdate.data.database.ArticleEntity
@@ -11,6 +13,7 @@ import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
 
 class ArticleRepository private constructor(
         private val preferences: SharedPreferences,
+        private val categories: Array<String>,
         private val articleDao: ArticleDao,
         private val networkDataSource: NetworkDataSource,
         private val appExecutors: AppExecutors
@@ -41,7 +44,7 @@ class ArticleRepository private constructor(
 
     private fun deleteOldData(category: String) = articleDao.deleteAll(category)
 
-    fun syncData() = appExecutors.diskIO.execute { networkDataSource.syncData() }
+    private fun syncData() = appExecutors.diskIO.execute { networkDataSource.syncData() }
 
     fun getArticle(title: String): LiveData<ArticleEntity> {
         initializeData()
@@ -49,15 +52,23 @@ class ArticleRepository private constructor(
     }
     fun getArticles(limit: Int): LiveData<List<HeaderArticleEntity>> {
         initializeData()
-        return articleDao.getArticles(limit)
+
+        val articles = MediatorLiveData<List<HeaderArticleEntity>>()
+        val mainArticles = ArrayList<HeaderArticleEntity>(categories.size*3)
+
+        for (category in categories) {
+            val articleList = articleDao.getArticles(category, limit)
+            articles.addSource(articleList) { value ->
+                mainArticles.addAll(value)
+                articles.postValue(mainArticles)
+            }
+        }
+
+        return articles
     }
     fun getArticlesByCategory(category: String, limit: Int): LiveData<List<ListArticleEntity>> {
         initializeData()
         return articleDao.getArticlesByCategory(category, limit)
-    }
-    fun getArticlesByQuery(query: String): LiveData<List<ListArticleEntity>> {
-        initializeData()
-        return articleDao.getArticlesByQuery("%${query.replace(' ', '%')}%")
     }
 
     companion object {
@@ -67,11 +78,16 @@ class ArticleRepository private constructor(
         @Volatile
         private var INSTANCE: ArticleRepository? = null
 
-        fun getInstance(preferences: SharedPreferences, articleDao: ArticleDao, requestBuilder: NetworkDataSource, appExecutors: AppExecutors) =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: ArticleRepository(preferences, articleDao, requestBuilder, appExecutors).also {
-                        INSTANCE = it
-                    }
+        fun getInstance(
+                preferences: SharedPreferences,
+                categories: Array<String>,
+                articleDao: ArticleDao,
+                requestBuilder: NetworkDataSource,
+                appExecutors: AppExecutors
+        ) = INSTANCE ?: synchronized(this) { INSTANCE
+                ?: ArticleRepository(preferences, categories, articleDao, requestBuilder, appExecutors).also {
+                    INSTANCE = it
                 }
+        }
     }
 }

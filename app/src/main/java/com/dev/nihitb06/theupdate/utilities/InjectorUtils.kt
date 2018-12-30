@@ -3,6 +3,7 @@ package com.dev.nihitb06.theupdate.utilities
 import android.content.Context
 import android.preference.PreferenceManager
 import com.dev.nihitb06.theupdate.AppExecutors
+import com.dev.nihitb06.theupdate.R
 import com.dev.nihitb06.theupdate.data.ArticleRepository
 import com.dev.nihitb06.theupdate.data.database.TheUpdateDatabase
 import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
@@ -18,6 +19,7 @@ class InjectorUtils {
 
             return ArticleRepository.getInstance(
                     PreferenceManager.getDefaultSharedPreferences(context.applicationContext),
+                    context.resources.getStringArray(R.array.categories),
                     TheUpdateDatabase.getInstance(context.applicationContext).articleDao(),
                     NetworkDataSource.getInstance(context.applicationContext, executors),
                     executors

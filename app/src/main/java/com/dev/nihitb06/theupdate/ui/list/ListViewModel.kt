@@ -5,7 +5,7 @@ import com.dev.nihitb06.theupdate.data.ArticleRepository
 
 class ListViewModel (repository: ArticleRepository, category: String?) : ViewModel () {
 
-    val articles = if(category != null) repository.getArticlesByCategory(category, LIMIT) else repository.getArticles(LIMIT)
+    val articles = if(category != null) repository.getArticlesByCategory(category, LIMIT) else repository.getArticles(3)
 
     companion object {
         private const val LIMIT = 20

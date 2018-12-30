@@ -53,7 +53,6 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
         return itemView
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         container = view.container
