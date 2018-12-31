@@ -3,6 +3,9 @@
 
     <string name="api_key">f54f0ea8e73542dbaebcf1a61f8c4049</string>
 
+    <!-- List Empty Strings -->
+    <string name="nothing">Nothing Here</string>
+
     <!-- About App Strings -->
     <string name="app_icon">App Icon</string>
     <string name="app_description">The Update is a lightweight Android Application, which
@@ -18,7 +21,7 @@
     
     <string name="attribution">powered by NEWSAPI.org</string>
 
-    <string name="license">License: CC Attribution 3.0 UnPorted</string>
+    <string name="license">License: CC Attribution 3.0</string>
     <string name="unmodified">Unmodified</string>
 
     <!-- Navigation Menu Strings -->
@@ -62,6 +65,7 @@
     <!-- Content Descriptions -->
     <string name="content_description_header_item">Shows the Category to which the Article belongs</string>
     <string name="content_description_content_item">Shows Image associated to article</string>
+    <string name="content_description_list_empty">Image to show List is empty</string>
 
     <!-- App Details Strings -->
     <string name="byline">By:</string>

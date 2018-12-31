@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyle" />
+
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageView
+            android:src="@drawable/ic_launcher_foreground"
+            android:foreground="@drawable/ic_nothing"
+            android:layout_width="@dimen/image_size_land"
+            android:layout_height="@dimen/image_size_land"
+            android:contentDescription="@string/content_description_list_empty" />
+
+        <TextView
+            android:text="@string/nothing"
+            android:textSize="@dimen/text_primary"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/dimens_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

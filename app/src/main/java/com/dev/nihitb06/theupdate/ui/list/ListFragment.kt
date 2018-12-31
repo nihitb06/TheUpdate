@@ -4,10 +4,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -59,6 +62,7 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
     }
 
     private fun setupPager(view: View) {
+        view.loadingView.visibility = View.INVISIBLE
         view.newsPager.visibility = View.VISIBLE
 
         val adapter = ArticlePagerAdapter(emptyList(), this)
@@ -70,8 +74,12 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
 
             viewModel.articles.observe(this, Observer { articles ->
                 try {
-                    @Suppress("UNCHECKED_CAST")
-                    adapter.setArticles(articles as List<HeaderArticleEntity>)
+                    if(articles != null && articles.isNotEmpty()) {
+                        @Suppress("UNCHECKED_CAST")
+                        adapter.setArticles(articles as List<HeaderArticleEntity>)
+                    } else {
+                        showLoading()
+                    }
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
                 } catch (e: java.lang.IllegalStateException) {
@@ -86,6 +94,7 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
         }
     }
     private fun setupList(view: View) {
+        view.loadingView.visibility = View.INVISIBLE
         view.newsList.visibility = View.VISIBLE
         view.newsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
@@ -107,8 +116,12 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
 
             viewModel.articles.observe(this, Observer { articles ->
                 try {
-                    @Suppress("UNCHECKED_CAST")
-                    adapter.setArticles(articles as List<ListArticleEntity>)
+                    if(articles != null && articles.isNotEmpty()) {
+                        @Suppress("UNCHECKED_CAST")
+                        adapter.setArticles(articles as List<ListArticleEntity>)
+                    } else {
+                        showLoading()
+                    }
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
                 }
@@ -116,6 +129,14 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
+    }
+
+    private fun showLoading()  {
+        view?.loadingView?.visibility = View.VISIBLE
+        Handler().postDelayed({
+            view?.loadingView?.findViewById<ProgressBar>(R.id.progressBar)?.visibility = View.GONE
+            view?.loadingView?.findViewById<LinearLayout>(R.id.emptyView)?.visibility = View.VISIBLE
+        }, 5000)
     }
 
     override fun takeScreenShot() = Thread {

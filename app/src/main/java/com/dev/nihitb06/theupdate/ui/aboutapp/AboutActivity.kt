@@ -7,6 +7,7 @@ import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.nihitb06.theupdate.BuildConfig
@@ -57,6 +58,8 @@ class AboutActivity : AppCompatActivity() {
             val recyclerView = dialog.findViewById<RecyclerView>(R.id.rvImageAssets)
             recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             recyclerView.adapter = ImageAssetRecyclerAdapter(this, assets)
+
+            recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
 
             dialog.show()
         }
