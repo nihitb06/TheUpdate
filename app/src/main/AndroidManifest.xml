@@ -30,7 +30,7 @@
             android:parentActivityName=".ui.list.MainActivity" />
 
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.aboutapp.AboutActivity"
             android:parentActivityName=".ui.list.MainActivity" />
 
     </application>

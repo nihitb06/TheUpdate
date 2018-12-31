@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/dimens_16dp"
+    android:paddingStart="@dimen/dimens_16dp"
+    android:paddingEnd="@dimen/dimens_16dp"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimens_72dp"
+    style="@style/AppTheme.Clickable">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/content_description_header_item" />
+
+    <TextView
+        android:id="@+id/tvLicense"
+        android:text="@string/license"
+        android:textSize="@dimen/text_primary"
+        android:textColor="?android:textColorPrimary"
+        android:fontFamily="sans-serif"
+        android:layout_marginStart="@dimen/dimens_16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/icon" />
+
+    <TextView
+        android:text="@string/unmodified"
+        android:textSize="@dimen/text_secondary"
+        android:textColor="?android:textColorSecondary"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="@dimen/dimens_8dp"
+        android:layout_marginStart="@dimen/dimens_16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvLicense"
+        app:layout_constraintStart_toEndOf="@id/icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

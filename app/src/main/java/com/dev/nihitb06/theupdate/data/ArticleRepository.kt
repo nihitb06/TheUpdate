@@ -2,7 +2,6 @@ package com.dev.nihitb06.theupdate.data
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.dev.nihitb06.theupdate.AppExecutors
 import com.dev.nihitb06.theupdate.data.database.ArticleDao
@@ -10,6 +9,7 @@ import com.dev.nihitb06.theupdate.data.database.ArticleEntity
 import com.dev.nihitb06.theupdate.data.database.HeaderArticleEntity
 import com.dev.nihitb06.theupdate.data.database.ListArticleEntity
 import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
+import java.lang.IllegalStateException
 
 class ArticleRepository private constructor(
         private val preferences: SharedPreferences,
@@ -53,16 +53,17 @@ class ArticleRepository private constructor(
     fun getArticles(limit: Int): LiveData<List<HeaderArticleEntity>> {
         initializeData()
 
-        val articles = MediatorLiveData<List<HeaderArticleEntity>>()
+        val articles = MutableLiveData<List<HeaderArticleEntity>>()
         val mainArticles = ArrayList<HeaderArticleEntity>(categories.size*3)
 
-        for (category in categories) {
-            val articleList = articleDao.getArticles(category, limit)
-            articles.addSource(articleList) { value ->
-                mainArticles.addAll(value)
-                articles.postValue(mainArticles)
+        appExecutors.diskIO.execute {
+            for (category in categories) {
+                val articleList = articleDao.getArticles(category, limit)
+                mainArticles.addAll(articleList)
             }
         }
+
+        articles.postValue(mainArticles)
 
         return articles
     }

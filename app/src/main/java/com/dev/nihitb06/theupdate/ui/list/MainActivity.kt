@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateInterpolator
 import com.dev.nihitb06.theupdate.R
-import com.dev.nihitb06.theupdate.ui.AboutActivity
+import com.dev.nihitb06.theupdate.ui.aboutapp.AboutActivity
 import com.dev.nihitb06.theupdate.ui.list.utilities.MyActionBarDrawerToggle
 import kotlinx.android.synthetic.main.activity_main.*
 import yalantis.com.sidemenu.interfaces.Resourceble

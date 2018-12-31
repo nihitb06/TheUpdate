@@ -18,6 +18,9 @@
     
     <string name="attribution">powered by NEWSAPI.org</string>
 
+    <string name="license">License: CC Attribution 3.0 UnPorted</string>
+    <string name="unmodified">Unmodified</string>
+
     <!-- Navigation Menu Strings -->
     <string name="close">Close</string>
     <string name="home">Home</string>

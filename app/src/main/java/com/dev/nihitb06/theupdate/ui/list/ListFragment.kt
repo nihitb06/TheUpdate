@@ -61,6 +61,9 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
     private fun setupPager(view: View) {
         view.newsPager.visibility = View.VISIBLE
 
+        val adapter = ArticlePagerAdapter(emptyList(), this)
+        view.newsPager.setCreativeViewPagerAdapter(adapter)
+
         try {
             val factory = InjectorUtils.provideListViewModelFactory(context!!.applicationContext, null)
             val viewModel = ViewModelProviders.of(this, factory).get(ListViewModel::class.java)
@@ -68,14 +71,16 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
             viewModel.articles.observe(this, Observer { articles ->
                 try {
                     @Suppress("UNCHECKED_CAST")
-                    view.newsPager.setCreativeViewPagerAdapter(ArticlePagerAdapter(articles as List<HeaderArticleEntity>, this))
+                    adapter.setArticles(articles as List<HeaderArticleEntity>)
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
+                } catch (e: java.lang.IllegalStateException) {
+                    throw e
                 }
             })
         } catch (e: NullPointerException) {
             e.printStackTrace()
-        } catch (e: IllegalStateException) {
+        } catch (e: java.lang.IllegalStateException) {
             e.printStackTrace()
             activity?.recreate()
         }

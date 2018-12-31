@@ -15,9 +15,13 @@ import kotlinx.android.synthetic.main.layout_header_item.view.*
 import java.net.URL
 
 class ArticlePagerAdapter (
-        private val articles: List<HeaderArticleEntity>,
+        private var articles: List<HeaderArticleEntity>,
         private val onItemClickListener: OnItemClickListener
 ) : CreativePagerAdapter {
+
+    fun setArticles(articles: List<HeaderArticleEntity>) {
+        this.articles = articles
+    }
 
     override fun instantiateHeaderItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View
             = inflater.inflate(R.layout.layout_content_item, container, false).apply {

@@ -13,7 +13,7 @@ interface ArticleDao {
     fun getArticle(title: String): LiveData<ArticleEntity>
 
     @Query("SELECT title, category, urlToImage, description, publishedAt FROM articles WHERE category=:category LIMIT :limit")
-    fun getArticles(category: String, limit: Int): LiveData<List<HeaderArticleEntity>>
+    fun getArticles(category: String, limit: Int): List<HeaderArticleEntity>
 
     @Query("SELECT title, urlToImage, description, publishedAt FROM articles WHERE category=:category LIMIT :limit")
     fun getArticlesByCategory(category: String, limit: Int): LiveData<List<ListArticleEntity>>

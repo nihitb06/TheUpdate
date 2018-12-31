@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AboutActivity">
+    tools:context=".ui.aboutapp.AboutActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -72,24 +72,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/AppTheme.Clickable" />
-
-    <TextView
-        android:id="@+id/tvOSS"
-        android:text="@string/open_source"
-        android:textSize="@dimen/text_primary"
-        android:textColor="?android:textColorPrimary"
-        android:fontFamily="sans-serif"
-        android:padding="@dimen/dimens_16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/AppTheme.Clickable" />
-
-    <View
-        android:background="#BDBDBD"
-        android:layout_marginStart="@dimen/dimens_16dp"
-        android:layout_marginEnd="@dimen/dimens_16dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
 
     <TextView
         android:id="@+id/tvAssets"
