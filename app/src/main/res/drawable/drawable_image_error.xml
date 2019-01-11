@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@android:color/darker_gray" />
+
+    <item
+        android:drawable="@drawable/ic_filter_hdr_black_24dp"
+        android:top="@dimen/dimens_4dp"
+        android:bottom="@dimen/dimens_4dp"
+        android:left="@dimen/dimens_4dp"
+        android:right="@dimen/dimens_4dp" />
+
+    <item
+        android:drawable="@drawable/ic_nothing"
+        android:top="@dimen/dimens_4dp"
+        android:bottom="@dimen/dimens_4dp"
+        android:left="@dimen/dimens_4dp"
+        android:right="@dimen/dimens_4dp" />
+
+</layer-list>

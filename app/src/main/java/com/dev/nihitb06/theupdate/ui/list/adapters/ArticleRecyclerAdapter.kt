@@ -11,6 +11,7 @@ import com.dev.nihitb06.theupdate.R
 import com.dev.nihitb06.theupdate.data.database.ListArticleEntity
 import com.dev.nihitb06.theupdate.ui.list.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.layout_list_item.view.*
+import java.net.MalformedURLException
 import java.net.URL
 
 class ArticleRecyclerAdapter (private val onItemClickListener: OnItemClickListener)
@@ -29,9 +30,16 @@ class ArticleRecyclerAdapter (private val onItemClickListener: OnItemClickListen
         private val tvDescription = itemView.tvDescription
 
         fun bindView(article: ListArticleEntity, position: Int) {
-            Glide.with(itemView).load(GlideUrl(URL(article.urlToImage))).apply(
-                    RequestOptions().centerCrop()
-            ).into(imageView)
+            try {
+                Glide.with(itemView).load(GlideUrl(URL(article.urlToImage))).apply(
+                        RequestOptions()
+                                .centerCrop()
+                                .placeholder(R.drawable.drawable_image)
+                                .error(R.drawable.drawable_image_error)
+                ).into(imageView)
+            } catch (e: MalformedURLException) {
+                Glide.with(itemView).load(R.drawable.drawable_image_error).into(imageView)
+            }
 
             tvHeader.text = article.title
             tvDescription.text = article.description

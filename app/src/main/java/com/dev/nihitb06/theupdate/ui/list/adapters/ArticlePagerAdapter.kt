@@ -12,6 +12,7 @@ import com.dev.nihitb06.theupdate.ui.list.interfaces.OnItemClickListener
 import com.tbuonomo.creativeviewpager.adapter.CreativePagerAdapter
 import kotlinx.android.synthetic.main.layout_content_item.view.*
 import kotlinx.android.synthetic.main.layout_header_item.view.*
+import java.net.MalformedURLException
 import java.net.URL
 
 class ArticlePagerAdapter (
@@ -26,9 +27,16 @@ class ArticlePagerAdapter (
     override fun instantiateHeaderItem(inflater: LayoutInflater, container: ViewGroup, position: Int): View
             = inflater.inflate(R.layout.layout_content_item, container, false).apply {
         val article = articles[position]
-        Glide.with(context).load(GlideUrl(URL(article.urlToImage))).apply(
-                RequestOptions().centerCrop()
-        ).into(imageView)
+        try {
+            Glide.with(context).load(GlideUrl(URL(article.urlToImage))).apply(
+                    RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.drawable_image)
+                            .error(R.drawable.drawable_image_error)
+            ).into(imageView)
+        } catch (e: MalformedURLException) {
+            Glide.with(context).load(R.drawable.drawable_image_error).into(imageView)
+        }
 
         tvHeader.text = article.title
         tvDescription.text = article.description

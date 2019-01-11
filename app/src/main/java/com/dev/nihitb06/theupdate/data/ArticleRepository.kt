@@ -9,7 +9,6 @@ import com.dev.nihitb06.theupdate.data.database.ArticleEntity
 import com.dev.nihitb06.theupdate.data.database.HeaderArticleEntity
 import com.dev.nihitb06.theupdate.data.database.ListArticleEntity
 import com.dev.nihitb06.theupdate.data.network.NetworkDataSource
-import java.lang.IllegalStateException
 
 class ArticleRepository private constructor(
         private val preferences: SharedPreferences,
@@ -60,10 +59,11 @@ class ArticleRepository private constructor(
             for (category in categories) {
                 val articleList = articleDao.getArticles(category, limit)
                 mainArticles.addAll(articleList)
+                articles.postValue(mainArticles)
             }
         }
 
-        articles.postValue(mainArticles)
+        articles.value = mainArticles
 
         return articles
     }

@@ -38,8 +38,15 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
     private lateinit var category: String
     private lateinit var toolbar: Toolbar
 
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
+
+    private var firstTry = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        firstTry = savedInstanceState?.getBoolean(FIRST_TRY) ?: true
 
         category = arguments?.getString(CATEGORY) ?: getString(R.string.home)
     }
@@ -61,6 +68,11 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
         container = view.container
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(FIRST_TRY, firstTry)
+        super.onSaveInstanceState(outState)
+    }
+
     private fun setupPager(view: View) {
         view.loadingView.visibility = View.INVISIBLE
         view.newsPager.visibility = View.VISIBLE
@@ -72,11 +84,14 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
             val factory = InjectorUtils.provideListViewModelFactory(context!!.applicationContext, null)
             val viewModel = ViewModelProviders.of(this, factory).get(ListViewModel::class.java)
 
-            viewModel.articles.observe(this, Observer { articles ->
+            val articleList = viewModel.articles
+            articleList.observe(this, Observer { articles ->
                 try {
                     if(articles != null && articles.isNotEmpty()) {
                         @Suppress("UNCHECKED_CAST")
                         adapter.setArticles(articles as List<HeaderArticleEntity>)
+
+                        hideLoading()
                     } else {
                         showLoading()
                     }
@@ -119,6 +134,8 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
                     if(articles != null && articles.isNotEmpty()) {
                         @Suppress("UNCHECKED_CAST")
                         adapter.setArticles(articles as List<ListArticleEntity>)
+
+                        hideLoading()
                     } else {
                         showLoading()
                     }
@@ -133,10 +150,16 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
 
     private fun showLoading()  {
         view?.loadingView?.visibility = View.VISIBLE
-        Handler().postDelayed({
+        if(!::handler.isInitialized) handler = Handler()
+        if(!::runnable.isInitialized) runnable = Runnable {
             view?.loadingView?.findViewById<ProgressBar>(R.id.progressBar)?.visibility = View.GONE
             view?.loadingView?.findViewById<LinearLayout>(R.id.emptyView)?.visibility = View.VISIBLE
-        }, 5000)
+        }
+        handler.postDelayed(runnable, 5000)
+    }
+    private fun hideLoading() {
+        view?.loadingView?.visibility = View.GONE
+        if(::handler.isInitialized) handler.removeCallbacks(runnable)
     }
 
     override fun takeScreenShot() = Thread {
@@ -159,6 +182,7 @@ class ListFragment : Fragment(), ScreenShotable, OnItemClickListener {
     companion object {
 
         const val CATEGORY = "Category"
+        const val FIRST_TRY = "First Try"
 
         @JvmStatic
         fun newInstance(category: String, toolbar: Toolbar) = ListFragment().apply {

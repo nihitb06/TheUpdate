@@ -1,6 +1,5 @@
 package com.dev.nihitb06.theupdate.data.network.requests
 
-import android.util.Log
 import com.dev.nihitb06.theupdate.data.database.ArticleEntity
 import org.json.JSONArray
 import org.json.JSONException
@@ -19,7 +18,6 @@ class ResponseParser {
         const val STATUS_CODE_OK = "ok"
         const val STATUS_CODE_ERROR = "error"
 
-        const val SOURCE = "source"
         const val AUTHOR = "author"
         const val TITLE = "title"
         const val DESCRIPTION = "description"
@@ -28,30 +26,28 @@ class ResponseParser {
         const val PUBLISHED_AT = "publishedAt"
         const val CONTENT = "content"
 
-        private const val ID = "id"
-        private const val NAME = "name"
-
         fun parseJson(json: String, category: String): ArticleResponseObject? {
             val jsonObject = JSONObject(json)
 
             if(jsonObject[STATUS] == STATUS_CODE_ERROR)
                 return null
 
-            val articles = jsonObject[ARTICLES] as JSONArray
+            val articles = try { jsonObject[ARTICLES] as JSONArray } catch (e: JSONException) { JSONArray() }
             val articleEntities = ArrayList<ArticleEntity>()
 
             for (i in 0 until articles.length()) {
-                val article = articles[i] as JSONObject
+                val articlesString = articles[i].toString()
+                val article = JSONObject(articlesString.replace("null", "\'\'"))
 
                 articleEntities.add(ArticleEntity(
                         try { article[AUTHOR] as String } catch (e: ClassCastException) { "" },
-                        article[TITLE] as String,
-                        article[DESCRIPTION] as String,
+                        try { article[ResponseParser.TITLE] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.DESCRIPTION] as String } catch (e: JSONException) { "" },
                         category,
-                        article[URL] as String,
-                        article[URL_TO_IMAGE] as String,
-                        article[PUBLISHED_AT] as String,
-                        article[CONTENT] as String
+                        try { article[ResponseParser.URL] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.URL_TO_IMAGE] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.PUBLISHED_AT] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.CONTENT] as String } catch (e: JSONException) { "" }
                 ))
             }
 

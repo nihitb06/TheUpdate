@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.request.RequestOptions
 import com.dev.nihitb06.theupdate.R
 import com.dev.nihitb06.theupdate.data.database.ArticleEntity
 import com.dev.nihitb06.theupdate.utilities.InjectorUtils
@@ -51,7 +52,15 @@ class ArticleDetailsActivity : AppCompatActivity() {
 
     private fun bindArticle(article: LiveData<ArticleEntity>) {
         article.observe(this, Observer { articleEntity ->
-            Glide.with(this).load(GlideUrl(URL(articleEntity.urlToImage))).into(imageView)
+            try {
+                Glide.with(this).applyDefaultRequestOptions(
+                        RequestOptions()
+                                .placeholder(R.drawable.drawable_image)
+                                .error(R.drawable.drawable_image_error)
+                ).load(GlideUrl(URL(articleEntity.urlToImage))).into(imageView)
+            } catch (e: MalformedURLException) {
+                Glide.with(this).load(R.drawable.drawable_image_error).into(imageView)
+            }
 
             tvHeader.text = articleEntity.title
             tvAuthor.text = articleEntity.author

@@ -20,7 +20,7 @@ class NetworkRequestTester {
             "\"url\":\"http://style.tribunnews.com/2018/12/28/harga-dan-spesifikasi-honor-v20-terbaru-punya-kamera-48-mp-saingan-berat-dari-xiaomi\"," +
             "\"urlToImage\":\"http://cdn2.tstatic.net/style/foto/bank/images/peluncuran-honor-v20-view-20.jpg\"," +
             "\"publishedAt\":\"2018-12-28T08:25:00Z\"," +
-            "\"content\":\"TRIBUNSTYLE.COM - Honor secara resmi akan segera meluncurkan hape terbarunya dengan kamera 48 MP yaitu Honor V20 (View 20). Honor secara resmi akan segera meluncurkan hape terbaru mereka dengan kamera 48 MP. Hape itu sendiri adalah Honor V20 (View 20) yang te… [+1219 chars]\"" +
+            "\"content\":\"null\"" +
             "}]}"
     private val category = "technology"
 
@@ -337,31 +337,35 @@ class NetworkRequestTester {
     @Test
     fun checkParsedJson() {
         try {
-            val jsonObject = JSONObject(jsonOne)
-
-            print("Hello World")
+            val jsonObject = JSONObject(jsonOne.replace("-", ""))
 
             if(jsonObject[ResponseParser.STATUS] == ResponseParser.STATUS_CODE_ERROR)
                 return
 
-            print("Hello World")
+            val articles = try {
+                jsonObject[ResponseParser.ARTICLES] as JSONArray
+            } catch (e: JSONException) {
+                JSONArray()
+            }
 
-            val articles = jsonObject[ResponseParser.ARTICLES] as JSONArray
             val articleEntities = ArrayList<ArticleEntity>()
 
             for (i in 0 until articles.length()) {
-                val article = articles[i] as JSONObject
+                val articleString = articles[i].toString()
+                val article = JSONObject(articleString.replace("null", "\'\'"))
 
                 articleEntities.add(ArticleEntity(
-                        article[ResponseParser.AUTHOR] as String,
-                        article[ResponseParser.TITLE] as String,
-                        article[ResponseParser.DESCRIPTION] as String,
+                        try { article[ResponseParser.AUTHOR] as String } catch (e: JSONException) { "" } ,
+                        try { article[ResponseParser.TITLE] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.DESCRIPTION] as String } catch (e: JSONException) { "" },
                         category,
-                        article[ResponseParser.URL] as String,
-                        article[ResponseParser.URL_TO_IMAGE] as String,
-                        article[ResponseParser.PUBLISHED_AT] as String,
-                        article[ResponseParser.CONTENT] as String
+                        try { article[ResponseParser.URL] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.URL_TO_IMAGE] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.PUBLISHED_AT] as String } catch (e: JSONException) { "" },
+                        try { article[ResponseParser.CONTENT] as String } catch (e: JSONException) { "" }
                 ))
+
+                print("Hello World\n")
             }
 
             val code = try { jsonObject[ResponseParser.CODE] as String } catch (e: JSONException) { null }
